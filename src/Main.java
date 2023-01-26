@@ -1,61 +1,34 @@
-import com.philf.Seat;
-import com.philf.Theatre;
+import com.philf.Location;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.sound.sampled.FloatControl;
+import java.util.*;
 
 
 public class Main {
+    private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
     public static void main(String[] args) {
-        Theatre theatre = new Theatre("Olympian", 8, 12);
-        //shallow copy
+        Scanner scanner = new Scanner(System.in);
 
-        if(theatre.reserveSeat("D12")) {
-            System.out.println("Please pay for D12");
-        } else {
-            System.out.println("Seat already reserved.");
-        }
+        locations.put(0, new Location(0, "You are sitting in front of a computer learning Java"));
+        locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building"));
+        locations.put(2, new Location(2, "You are at the top of a hill"));
+        locations.put(3, new Location(3, "You are inside a building, a well house for a small "));
+        locations.put(4, new Location(4, "You ar ein a valley beside a stream"));
+        locations.put(5, new Location(5, "You are in the forest"));
 
-        if(theatre.reserveSeat("D12")) {
-            System.out.println("Please pay for D12");
-        } else {
-            System.out.println("Seat already reserved.");
-        }
-
-        if(theatre.reserveSeat("B13")) {
-            System.out.println("Please pay for B13");
-        } else {
-            System.out.println("Seat already reserved.");
-        }
-
-        List<Seat> reverseSeats = new ArrayList<>(theatre.getSeats());
-        Collections.reverse(reverseSeats);
-        printList(reverseSeats);
-
-        List<Seat> priceSeats = new ArrayList<>(theatre.getSeats());
-        priceSeats.add(new Seat("B00", 13.00));
-        priceSeats.add(new Seat("A00", 13.00));
-        Collections.sort(priceSeats, Theatre.PRICE_ORDER);
-        printList(priceSeats);
-
-    }
-
-    public static void printList(List<Seat> list) {
-        for(Seat seat : list) {
-            System.out.print(" " + seat.getSeatNumber() + " $" + seat.getPrice());
-        }
-        System.out.println();
-        System.out.println("=========================================================================================");
-    }
-
-    /* public static void sortList(List<? extends Seat> list) {
-        for(int i=0;i<list.size();i++) {
-            for(int j=i+1;j<list.size();j++) {
-                if(list.get(i).compareTo(list.get(j)) > 0) {
-                    Collections.swap(list, i, j);
-                }
+        int loc = 1;
+        while (true) {
+            System.out.println(locations.get(loc).getDescription());
+            if(loc == 0) {
+                break;
             }
+
+            loc = scanner.nextInt();
+            if(!locations.containsKey(loc)) {
+                System.out.println("You can't go in that direction!");
+            }
+
         }
-    } */
+
+    }
 }
