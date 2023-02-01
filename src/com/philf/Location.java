@@ -11,8 +11,12 @@ public class Location {
     public Location(int locationID, String description, Map<String, Integer> exits) {
         this.locationID = locationID;
         this.description = description;
-        this.exits = new HashMap<String, Integer>(exits);
-        this.exits.put("Q", 0);
+        if(exits != null) {
+            this.exits = new HashMap<String, Integer>(exits);
+            this.exits.put("Q", 0);
+        } else {
+            this.exits = new HashMap<String, Integer>();
+        }
     }
 
 //    public void addExit(String direction, int location) {
