@@ -29,4 +29,34 @@ public final class HeavenlyBody {
     public Set<HeavenlyBody> getSatellites() {
         return new HashSet<>(this.satellites);
     }
+
+
+    /*
+    Doc https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html#equals-java.lang.Object-
+     */
+    @Override
+    public boolean equals(Object obj) {
+
+        //checks to see if it is compared to itself
+        if(this == obj) {
+            return true;
+        }
+
+        System.out.println("obj.getClass() is " + obj.getClass());
+        System.out.println("this.getClass() is " + this.getClass());
+
+        //Checks the class of the object being compared to the class the object is in.
+        if((obj == null) || (obj.getClass() !=  this.getClass())) {
+            return false;
+        }
+
+        String objName = ((HeavenlyBody) obj).getName();
+        return this.name.equals(objName);
+    }
+
+    @Override
+    public int hashCode() {
+        System.out.println("hascode called");
+        return this.name.hashCode() + 57;
+    }
 }
