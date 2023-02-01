@@ -1,96 +1,101 @@
-import com.philf.Location;
+import com.philf.HeavenlyBody;
 
-import javax.sound.sampled.FloatControl;
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Main {
-    private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
+
+    private static Map<String, HeavenlyBody> solarSystem = new HashMap<>();
+    private static Set<HeavenlyBody> planets = new HashSet<>();
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Map<String, Integer> tempExit = new HashMap<String, Integer>();
-        locations.put(0, new Location(0, "You are sitting in front of a computer learning Java",tempExit));
+        HeavenlyBody temp = new HeavenlyBody("Mercury", 88);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
 
-        tempExit.put("W", 2);
-        tempExit.put("E", 3);
-        tempExit.put("S", 4);
-        tempExit.put("N", 5);
-        locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building",tempExit));
+        temp = new HeavenlyBody("Venus", 225);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
 
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("N", 5);
-        locations.put(2, new Location(2, "You are at the top of a hill",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("W", 1);
-        locations.put(3, new Location(3, "You are inside a building, a well house for a small ",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("N", 1);
-        tempExit.put("W", 2);
-        locations.put(4, new Location(4, "You ar ein a valley beside a stream",tempExit));
-
-        tempExit = new HashMap<String, Integer>();
-        tempExit.put("S", 1);
-        tempExit.put("W", 2);
-        locations.put(5, new Location(5, "You are in the forest",tempExit));
+        temp = new HeavenlyBody("Earth", 365);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
 
 
-        Map<String, String> vocabulary = new HashMap<String, String>();
-        vocabulary.put("QUIT", "Q");
-        vocabulary.put("NORTH", "N");
-        vocabulary.put("SOUTH", "S");
-        vocabulary.put("WEST", "W");
-        vocabulary.put("EAST", "E");
+        HeavenlyBody tempMoon = new HeavenlyBody("Moon", 27);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon);
+
+        temp = new HeavenlyBody("Mars", 687);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
+
+        tempMoon = new HeavenlyBody("Deimos", 1.3);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon); //temp is still Mars
+
+        tempMoon = new HeavenlyBody("Phobos", 0.3);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon); //temp is still Mars
+
+        temp = new HeavenlyBody("Jupiter", 4332);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
 
 
-        int loc = 1;
-        while (true) {
-            System.out.println(locations.get(loc).getDescription());
-            tempExit.remove("S");
-            if(loc == 0) {
-                break;
-            }
+        tempMoon = new HeavenlyBody("Io", 1.8);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon);
 
-            Map<String,Integer> exits = locations.get(loc).getExits();
-            System.out.print("Available exists are ");
-            for(String exit : exits.keySet()) {
-                System.out.print(exit + ", ");
-            }
-            System.out.println();
+        tempMoon = new HeavenlyBody("Europa", 3.5);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon);
 
-            String direction = scanner.nextLine().toUpperCase();
+        tempMoon = new HeavenlyBody("Ganymede", 7.1);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon); //temp is still Jupiter
 
-            //For challenge - Split String to get full words as directions
-            if(direction.length() > 1) {
-                String[] words = direction.split(" ");
-                for(String word : words) {
-                    if(vocabulary.containsKey(word)) {
-                        direction = vocabulary.get(word);
-                        break;
-                    }
-                }
-            }
+        tempMoon = new HeavenlyBody("Callisto", 16.7);
+        solarSystem.put(tempMoon.getName(), tempMoon);
+        temp.addMoon(tempMoon);
 
-            if(exits.containsKey(direction)) {
-                loc = exits.get(direction);
-            } else {
-                System.out.println("You can't go in that direction");
-            }
+        temp = new HeavenlyBody("Saturn", 10759);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
+
+        temp = new HeavenlyBody("Uranus", 30660);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
+
+        temp = new HeavenlyBody("Neptune", 165);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
+
+        temp = new HeavenlyBody("Pluto", 248);
+        solarSystem.put(temp.getName(), temp);
+        planets.add(temp);
+
+        System.out.println("Planets");
+        for (HeavenlyBody planet : planets) {
+            System.out.println("\t" + planet.getName());
         }
 
-//        String[] road = "You are standing at the end of the a road before a small brick building".split(" ");
-//        for (String i : road) {
-//            System.out.println(i);
-//        }
-//
-//        System.out.println("=======================================");
-//
-//        String[] building = "You are inside a building, a well house for a small spring".split(", ");
-//        for (String i : building) {
-//            System.out.println(i);
-//        }
+        HeavenlyBody body = solarSystem.get("Mars");
+        System.out.println("Moons of " + body.getName());
+        for (HeavenlyBody jupiterMoon : body.getSatellites()) {
+            System.out.println("\t" + jupiterMoon.getName());
+        }
+
+        Set<HeavenlyBody> moons = new HashSet<>();
+        for (HeavenlyBody planet : planets) {
+            moons.addAll(planet.getSatellites());
+        }
+
+        System.out.println("All Moons");
+        for (HeavenlyBody moon : moons) {
+            System.out.println("\t" + moon.getName());
+        }
 
     }
 }
