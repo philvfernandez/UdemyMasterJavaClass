@@ -76,7 +76,7 @@ public abstract class HeavenlyBody {
 
     @Override
     public String toString() {
-        return this.key.name + ": " + this.key.bodyType + "," + this.orbitalPeriod;
+        return this.key.name + ": " + this.key.bodyType.toString() + "," + this.orbitalPeriod;
     }
 
     public static final class Key {
@@ -112,7 +112,7 @@ public abstract class HeavenlyBody {
 
         @Override
         public String toString() {
-            return this.name + ": " + this.bodyType;
+            return this.name + ": " + bodyType.toString();
         }
     }
 }
