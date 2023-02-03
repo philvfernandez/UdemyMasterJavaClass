@@ -37,8 +37,15 @@ public class StockList {
         return 0;
     }
 
+    public Map<String, Double> PriceList() {
+        Map<String, Double> prices = new LinkedHashMap<>();
+        for(Map.Entry<String, StockItem> item : list.entrySet()) {
+            prices.put((item.getKey()), item.getValue().getPrice());
+        }
+        return Collections.unmodifiableMap(prices);
+    }
     public StockItem get(String key) {
-        return this.get(key);
+        return list.get(key);
     }
 
     public Map<String, StockItem> Items() {
