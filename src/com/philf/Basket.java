@@ -28,7 +28,7 @@ public class Basket {
         if((item != null) && (quantity > 0)) {
             //check if we already have the item in the basket
             int inBasket = list.getOrDefault(item, 0);
-            int newQuanity = inBasket + quantity;
+            int newQuanity = inBasket - quantity;
 
             if(newQuanity > 0) {
                 list.put(item, newQuanity);
