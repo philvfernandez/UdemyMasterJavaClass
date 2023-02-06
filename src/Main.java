@@ -1,130 +1,57 @@
-import com.philf.DwarfPlanet;
-import com.philf.HeavenlyBody;
-import com.philf.Moon;
-import com.philf.Planet;
+import com.philf.CodeToRun;
+import com.philf.Employee;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
 
-    private static Map<HeavenlyBody.Key, HeavenlyBody> solarSystem = new HashMap<>();
-    private static Set<HeavenlyBody> planets = new HashSet<>();
     public static void main(String[] args) {
-        HeavenlyBody temp = new Planet("Mercury", 88);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
+        //new Thread(new CodeToRun()).start();
 
-        temp = new Planet("Venus", 225);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
+        //second way to create a new Thread - using an anonymous class
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                System.out.println("printing from the Runnable");
+//            }
+//        }).start();
 
-        temp = new Planet("Earth", 365);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
+        //using lambdas -- Note: Lambdas are a feature in Java release 8+
+        //Lambda expressions have 3 parts:
+        // 1. Argument list
+        // 2. The arrow token
+        // 3. The body.
+        // Note: () -> System.out.println("Printing from Lambda") is an empty argument list.
+        // Note: the --> is the arrow token.
+        // Note: The body is the code we want to run. Which in the eample below is System.out.println("Printing from Lambda")
+        new Thread(() -> {
+            System.out.println("Printing from Runnable");
+            System.out.println("Line 2");
+            System.out.format("This is line %d\n",3);
+        }).start();
 
+        Employee john = new Employee("John Doe", 30);
+        Employee tim = new Employee("Phil Fernandez", 49);
+        Employee jack = new Employee("Jack Hill", 40);
+        Employee snow = new Employee("Snow White", 22);
 
-        HeavenlyBody tempMoon = new Moon("Moon", 27);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon);
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(john);
+        employeeList.add(tim);
+        employeeList.add(jack);
+        employeeList.add(snow);
 
-        temp = new Planet("Mars", 687);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
+        Collections.sort(employeeList, new Comparator<Employee>() {
+            @Override
+            public int compare(Employee employee1, Employee employee2) {
+                return employee1.getName().compareTo(employee2.getName());
+            }
+        });
 
-        tempMoon = new Moon("Deimos", 1.3);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon); //temp is still Mars
-
-        tempMoon = new Moon("Phobos", 0.3);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon); //temp is still Mars
-
-        temp = new Planet("Jupiter", 4332);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
-
-
-        tempMoon = new Moon("Io", 1.8);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon);
-
-        tempMoon = new Moon("Europa", 3.5);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon);
-
-        tempMoon = new Moon("Ganymede", 7.1);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon); //temp is still Jupiter
-
-        tempMoon = new Moon("Callisto", 16.7);
-        solarSystem.put(tempMoon.getKey(), tempMoon);
-        temp.addSatellite(tempMoon);
-
-        temp = new Planet("Saturn", 10759);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
-
-        temp = new Planet("Uranus", 30660);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
-
-        temp = new Planet("Neptune", 165);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
-
-        temp = new Planet("Pluto", 248);
-        solarSystem.put(temp.getKey(), temp);
-        planets.add(temp);
-
-        System.out.println("Planets");
-        for (HeavenlyBody planet : planets) {
-            System.out.println("\t" + planet.getKey());
+        for(Employee employee : employeeList) {
+            System.out.println(employee.getName());
         }
 
-        HeavenlyBody body = solarSystem.get(HeavenlyBody.makeKey("Mars", HeavenlyBody.BodyTypes.PLANET));
-        System.out.println("Moons of " + body.getKey());
-        for (HeavenlyBody jupiterMoon : body.getSatellites()) {
-            System.out.println("\t" + jupiterMoon.getKey());
-        }
 
-        Set<HeavenlyBody> moons = new HashSet<>();
-        for (HeavenlyBody planet : planets) {
-            moons.addAll(planet.getSatellites());
-        }
-
-        System.out.println("All Moons");
-        for (HeavenlyBody moon : moons) {
-            System.out.println("\t" + moon.getKey());
-        }
-
-        HeavenlyBody pluto = new DwarfPlanet("Pluto", 842);
-        planets.add(pluto);
-
-        for (HeavenlyBody  planet : planets) {
-            System.out.println(planet);
-            //System.out.println(planet.getName() + ": " + planet.getOrbitalPeriod());
-        }
-
-        HeavenlyBody earth1 = new Planet("Earth", 365);
-        HeavenlyBody earth2 = new Planet("Earth", 365);
-
-        //Test to see if both objects are symmetrically equal.
-        System.out.println(earth1.equals(earth2));
-        System.out.println(earth2.equals(earth1));
-        System.out.println(earth1.equals(pluto));
-        System.out.println(pluto.equals(earth1));
-
-        solarSystem.put(pluto.getKey(), pluto);
-        System.out.println(solarSystem.get(HeavenlyBody.makeKey("Pluto", HeavenlyBody.BodyTypes.PLANET)));
-        System.out.println(solarSystem.get(HeavenlyBody.makeKey("Pluto", HeavenlyBody.BodyTypes.DWARF_PLANET)));
-
-        System.out.println();
-        System.out.println("The solar system contains:");
-        for (HeavenlyBody heavenlyBody : solarSystem.values()) {
-            System.out.println(heavenlyBody);
-        }
     }
 }
