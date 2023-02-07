@@ -71,9 +71,20 @@ public class Main {
 //        System.out.println(sillyString);
 
         //Using Lambdas
-        UpperConcat uc = (s1, s2) -> s1.toUpperCase() + s2.toUpperCase();
-        String sillString = doStringStuff(uc, employeeList.get(0).getName(), employeeList.get(1).getName());
-        System.out.println(sillString);
+//        UpperConcat uc = (s1, s2) -> {
+//            String result = s1.toUpperCase() + s2.toUpperCase();
+//            return result;
+//        };
+//
+//        String sillString = doStringStuff(uc, employeeList.get(0).getName(), employeeList.get(1).getName());
+//        System.out.println(sillString);
+
+        AnotherClass anotherClass = new AnotherClass();
+        String s = anotherClass.doSomething();
+        System.out.println(s);
+
+
+
 
     }
 
@@ -82,4 +93,32 @@ public class Main {
         return uc.upperAndConcat(s1,s2);
 
     }
+
+}
+
+//Anonymous class.
+class AnotherClass {
+    public String doSomething() {
+        int i = 0;
+        UpperConcat uc = (s1, s2) -> {
+            System.out.println("The Lambda expression's class is: " + getClass().getSimpleName());
+            String result = s1.toUpperCase() + s2.toUpperCase();
+            return result;
+        };
+
+        {
+            System.out.println("The AnotherClass class's name is " + getClass().getSimpleName());
+            return Main.doStringStuff(uc, "String1", "String2");
+        }
+
+    }
+//        System.out.println("The AnotherClass class's is: " + getClass().getSimpleName());
+//        return Main.doStringStuff(new UpperConcat() {
+//            @Override
+//            public String upperAndConcat(String s1, String s2) {
+//                System.out.println("The anonymous class's name is: " + getClass().getSimpleName());
+//                return s1.toUpperCase() + s2.toUpperCase();
+//            }
+//        }, "String1", "String2");
+//    }
 }
