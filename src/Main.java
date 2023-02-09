@@ -4,6 +4,7 @@ import com.philf.UpperConcat;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -35,11 +36,21 @@ public class Main {
         // The "::" notation is a method reference.
 
         someBingoNumbers
-                .stream()
-                .map(String::toUpperCase) //Same as String upperString = toUpperCase(myString)
-                .filter(s->s.startsWith("G"))
-                .sorted()
-                .forEach(System.out::println);
+                .stream() // A stream that contains all the items in the someBingoNumbers list, in the same order
+                .map(String::toUpperCase) //A stream that contains all the bingo numbers in uppercased. Same as String upperString = toUpperCase(myString)
+                .filter(s->s.startsWith("G"))  //A stream containing all the items beginning with "G".
+                .sorted() //A stream containing the sorted items.
+                .forEach(System.out::println); //The chain ends.  The terminal operation - returns either a void or a non-terminal result.
+
+        Stream<String> ioNumberStream = Stream.of("I26", "I17", "I29", "071");
+        Stream<String> inNumberStream = Stream.of("N40", "N36", "I26", "I17", "I17", "071");
+        Stream<String> concatStream = Stream.concat(ioNumberStream, inNumberStream);
+        System.out.println("-------------------------------------------------------");
+        System.out.println(concatStream
+                .distinct()
+                .peek(System.out::println)
+                .count());
+
     }
 
 }
