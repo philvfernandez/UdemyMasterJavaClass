@@ -1,9 +1,11 @@
 import com.philf.CodeToRun;
+import com.philf.Department;
 import com.philf.Employee;
 import com.philf.UpperConcat;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -50,6 +52,91 @@ public class Main {
                 .distinct()
                 .peek(System.out::println)
                 .count());
+
+        System.out.println("****************************************************");
+
+        Employee john = new Employee("John Doe", 30);
+        Employee jain = new Employee("Jain Doe", 25);
+        Employee jack = new Employee("Jack Hill", 40);
+        Employee snowWhite = new Employee("Snow White", 22);
+
+        Department hr = new Department("Human Resources");
+        hr.addEmployee(jain);
+        hr.addEmployee(jack);
+        hr.addEmployee(snowWhite);
+        Department accounting = new Department("Accounting");
+        accounting.addEmployee(john);
+
+        List<Department> departments = new ArrayList<>();
+        departments.add(hr);
+        departments.add(accounting);
+
+        departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .forEach(System.out::println);
+
+        System.out.println("-------------------------------------------------------------");
+
+//        List<String> sortedGNumbers = someBingoNumbers
+//                .stream()
+//                .map(String::toUpperCase)
+//                .filter(s -> s.startsWith("G"))
+//                .sorted()
+//                .collect(Collectors.toList());
+
+        List<String> sortedGNumbers = someBingoNumbers
+                .stream()
+                .map(String::toUpperCase)
+                .filter(s -> s.startsWith("G"))
+                .sorted()
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+
+
+        for(String s : sortedGNumbers) {
+            System.out.println(s);
+        }
+
+
+        //Grouping Example
+        Map<Integer, List<Employee>> groupedByAge = departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .collect(Collectors.groupingBy(employee -> employee.getAge()));
+
+        //Reduce example
+        departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .reduce((e1, e2) -> e1.getAge() < e2.getAge() ? e1 : e2)
+                .ifPresent(System.out::println);
+
+        //Example of streams when they are lazzly evaluated.
+        // Meaning nothing happens until there is a terminal operation.
+        Stream.of("ABC", "AC", "BAA", "CCCC", "XY", "ST")
+                .filter(s -> {
+                    System.out.println(s);
+                    return s.length() == 3;
+                })
+                .count();
+
+        /*
+        Notes:
+        Different ways to write lambda expressions:
+        1) Specified the types of parameters vs letting the compiler infer them.
+        2) Used a return statement with curly braces for one-statement lambda expressions
+        vs not using a return because it's implied (and hence not requiring curly braces).
+        3) Used lambda expressions that contain one statement vs Lambda expressions that have
+        more than one statement.
+        4) Using parenthesis when a lambda expression only has one argument vs not using parenthesis,
+        since they're optional when there's only one argument.
+
+        If you look at the four variations, the two alternatives offer the choice between verbosity vs conciseness,
+        which in turn, often comes down to the choice between readability and conciseness.  Not all the time.
+        Short lambda expressions are usually readable no matter how concise they are.  But when striving for
+        conciseness, we can sometimes write lambda expressions that are difficult to decipher we've left out too
+        much information.  Remember best practices are guidelines and NOT rules.  Readable? Concise?  Just be
+        consistent.
+         */
+
+
 
     }
 
