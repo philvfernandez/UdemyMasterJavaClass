@@ -1,8 +1,6 @@
-import com.philf.CodeToRun;
-import com.philf.Department;
-import com.philf.Employee;
-import com.philf.UpperConcat;
+import com.philf.*;
 
+import javax.crypto.spec.PSource;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
@@ -136,8 +134,80 @@ public class Main {
         consistent.
          */
 
+        //Challenge 1
+        String myString = "Let's split this up into an array";
+
+        Runnable r = () -> {
+
+        String[] parts = myString.split(" ");
+        for (String part : parts) {
+            System.out.println(part);
+        }
+
+        };
+
+        new Thread(r).start();
+
+        //Challenge 2 - write the following method as a lambda expression.
+        /*
+           public static String everySecondChar(String source) {
+           StringBuilder returnVal = new StringBuilder();
+           for(int i = 0; i < source.length(); i++) {
+             if(i % 2 == 1) {
+               returnVal.append(source.charAt(i));
+             }
+           }
+           return returnVal.toString();
+          }
+         */
+
+        //my solution
+        EverySecondChar everySecondChar = (source) -> {
+            StringBuilder returnVal = new StringBuilder();
+            for(int i = 0; i < source.length();i++) {
+                if(i % 2 == 1) {
+                    returnVal.append(source.charAt(i));
+                }
+
+            }
+            return  returnVal.toString();
+        };
+
+        //Instructor's solution
+        Function<String, String> everySecondChar2 = s -> {
+            StringBuilder returnVal = new StringBuilder();
+            for(int i = 0; i < s.length(); i++) {
+                if(i % 2 == 1) {
+                    returnVal.append(s.charAt(i));
+                }
+            }
+            return returnVal.toString();
+        };
+
+        //my solution -
+        System.out.println(everySecondChar.everySecondChar("12345867890"));
+        //Instructor's solution
+        System.out.println(everySecondChar2.apply("12345867890"));
+
+        //call for challenge #4
+        String result = everySecondChar3(everySecondChar2, "1234567890");
+        System.out.println(result);
+
+        //solution for challenge #6
+        Supplier<String> iLoveJava = () -> "I Love Java!!";
+
+        String supplierResult = iLoveJava.get();
+        System.out.println(supplierResult);
 
 
+
+
+
+    }
+
+    //Challenge #4/5
+    public static String everySecondChar3(Function<String, String> func, String source) {
+        return func.apply(source);
     }
 
 }
