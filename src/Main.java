@@ -199,6 +199,88 @@ public class Main {
         String supplierResult = iLoveJava.get();
         System.out.println(supplierResult);
 
+        //Challenge #9 - Write code to print the items in the list in sorted order and with the first letter in each
+        // name upper-cased.  The name "harry" should be printed as "Harry" and should be printed after "Emily" and
+        // before "Isla".  Use lambda expressions wherever possible.
+        List<String> topNames2015 = Arrays.asList(
+                "Amelia",
+                "Oliva",
+                "emily",
+                "Isla",
+                "Ava",
+                "oliver",
+                "Jack",
+                "Charlie",
+                "harry",
+                "Jacob"
+        );
+
+        List<String> sortedNames = new ArrayList<>();
+
+        //Solution for challenge #9
+        /*topNames2015.forEach(name ->
+                sortedNames.add(name.substring(0,1).toUpperCase() + name.substring(1)));
+        sortedNames.sort((s1, s2) -> s1.compareTo(s2));
+        sortedNames.forEach(s -> System.out.println(s)); */
+
+
+        //Solution for Challenge #10 - Change the code so that it uses method references.  Remember that a
+        //method reference looks like Class::MethodName
+        System.out.println("-------------------------------------------------------------------");
+        System.out.println("Using method reference in Lambda");
+        topNames2015.forEach(name ->
+                sortedNames.add(name.substring(0,1).toUpperCase() + name.substring(1)));
+        sortedNames.sort(String::compareTo);
+        sortedNames.forEach(System.out::println);
+
+
+        //Solution for challenge #11 - Now do the same thing (uppercase first letter, then sort and print the list)
+        //using a stream and a chain of stream operations.
+        System.out.println("***********************************************************************");
+        System.out.println("Using stream operations");
+        topNames2015
+                .stream()
+                .map(name -> name.substring(0,1).toUpperCase() + name.substring(1))
+                .sorted(String::compareTo)
+                .forEach(System.out::println);
+
+        //Solution for challenge #13 - Instead of printing out the sorted names, print out how many names
+        //being with the letter 'A' instead
+        //Two hints:
+        //1) You'll have to modify the stream chain
+        //2) You'll have to add another stream statement to print the number of items.
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("Challege #12");
+       long namesBegginingWithA = topNames2015
+                .stream()
+                .map(name -> name.substring(0,1).toUpperCase() + name.substring(1))
+                .filter(name -> name.startsWith("A"))
+                .count();
+
+        System.out.println("Number of names beginning with A is: " + namesBegginingWithA);
+
+        //Solution for challenge 13 - What will the following code print to the console
+        //Answer: Nothing because this chain doesn't contain a terminal operation.
+        /* System.out.println("**********************************************************************");
+        System.out.println("Challenge #13");
+        topNames2015
+                .stream()
+                .map(name -> name.substring(0, 1).toUpperCase() + name.substring(1))
+                .peek(System.out::println)
+                .sorted(String::compareTo); */
+
+        //Solution for challenge 14 - Add a terminal operation to the code in challenge 13 so that the
+        //peek call will execute.
+        System.out.println("**********************************************************************");
+        System.out.println("Challenge #14");
+        topNames2015
+                .stream()
+                .map(name -> name.substring(0, 1).toUpperCase() + name.substring(1))
+                .peek(System.out::println)
+                .sorted(String::compareTo)
+                .collect(Collectors.toList());
+
+
 
 
 
